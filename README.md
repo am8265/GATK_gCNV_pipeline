@@ -4,8 +4,9 @@
 This repository contains scripts and resources for Copy Number Variant (CNV) analysis on and Interstitial Cystitis Cohort (n=425) using the Genome Analysis Toolkit's germline CNV (GATK-gCNV) pipeline.
 The GATK-gCNV pipeline could be used for other datasets.
 
-![GATK-gCNV pipeline overview](path/to/image.jpg)  
-*Embed your image here. Replace 'path/to/image.jpg' with the relative path to your image file in the repository.*
+![GATK-gCNV pipeline overview-1](tx-6278_IC/Slide4.jpg)  
+![GATK-gCNV pipeline overview-2](tx-6278_IC/Slide6.jpg)
+![GATK-gCNV pipeline overview-3](tx-6278_IC/Slide5.jpg)
 
 ## Repository Structure
 - `README.md`: This file, containing detailed information about the project.
@@ -15,7 +16,10 @@ The GATK-gCNV pipeline could be used for other datasets.
 ## How to Run the Pipeline
 This section will provide step-by-step instructions on how to run the GATK-gCNV pipeline for CNV analysis. Detailed instructions will be added soon.
 
-*Here, you can later add detailed instructions on prerequisites, installation steps, running the scripts, and any other necessary information for users to successfully run the pipeline.*
+
+
+
+
 
 ## Requirements
 - [List of software and tools required]

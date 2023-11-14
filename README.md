@@ -11,7 +11,7 @@ The GATK-gCNV pipeline could be used for other datasets.
 ## Repository Structure
 - `README.md`: This file, containing detailed information about the project.
 - `scripts/`: Directory containing scripts used in the GATK-gCNV pipeline.
-- `tx-6278_IC/`: Directory containing specific resources/data and partial/full analysis related to the Interstitial Cohort Project
+- `tx-6278_IC/`: Directory containing specific resources and datasets and analysis(could be partial for lack of space on github) related to the Interstitial Cohort Project
 
 ## How to Run the Pipeline
 This section will provide step-by-step instructions on how to run the GATK-gCNV pipeline for CNV analysis. Detailed instructions will be added soon.

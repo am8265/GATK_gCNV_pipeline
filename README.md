@@ -18,16 +18,16 @@ This section will provide step-by-step instructions on how to run the GATK-gCNV 
 the kits used, it should be simple to extend the logic to other kits.
 
 ### 1. Run PreprocessIntervals to convert exomeKit bed file to interval_list file (with 250bp padding)
-bash scripts/PreprocessIntervals.sh tx-6278_IC/data/IDT_xGen_Exome_Research_Panel_v1_all.bed
+`bash scripts/PreprocessIntervals.sh tx-6278_IC/data/IDT_xGen_Exome_Research_Panel_v1_all.bed`
 
-bash scripts/PreprocessIntervals.1.sh tx-6278_IC/data/Agilent_SureSelect_v6_all.bed
+`bash scripts/PreprocessIntervals.1.sh tx-6278_IC/data/Agilent_SureSelect_v6_all.bed`
 
 e.g. Agilent_SureSelect_v6_all.bed.targets.preprocessed.interval_list will be the output
 
 ### 2. CollectReadCounts and store read counts in hdf5 format
 
-`SGE cluster run.`
-`tx-6278_IC/IC_proband_and_affected.ATAV_CRAMS.symLinks.txt is a file containing paths to cram/bam`
+SGE cluster run.
+tx-6278_IC/IC_proband_and_affected.ATAV_CRAMS.symLinks.txt is a file containing paths to cram/bam
 
 qsub -S /bin/bash -cwd -V -N collectCountsExome -m bea -tc 240 -o . -e . -pe threaded 8 -t 1-1 scripts/CollectReadCounts.2.sh tx-6278_IC/IC_proband_and_affected.ATAV_CRAMS.symLinks.txt data/Agilent_SureSelect_v6_all.bed.targets.preprocessed.interval_list
 

@@ -74,9 +74,12 @@ output: VCF generated per sample (325 samples)
 
 
 ## Requirements
-- [List of software and tools required]
-- [Version details]
-- [Any other dependencies]
+- gatk-4.4.0.0 https://github.com/broadinstitute/gatk/releases/download/4.4.0.0/gatk-4.4.0.0.zip
+- java17 https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+- samtools Version: 1.10 (using htslib 1.10)
+- bcftools Version: 1.10 (using htslib 1.10)
+- Jasmine version 1.1.5
+- AnnotSV 3.3.6
 
 *Fill in the details of the software, tools, and any other requirements needed to run your pipeline.*
 

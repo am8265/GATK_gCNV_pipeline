@@ -51,18 +51,35 @@ HPC cluster sge mode run
 
 
 
+
+
 `qsub -S /bin/bash -cwd -V -N GermlineCNVCallerCohort -m bea -tc 240 -o . -e . -pe threaded 24 -t 1-24 scripts/GermlineCNVCaller.5.sh tx-6278_IC/PathToCounts.agilentV6.IC_proband_and_affected.txt tx-6278_IC/Agilent325/scatter_file_list.Agilent325.txt ploidy-calls Agilent325Cohort`
 
 
 
+### 6. PostprocessGermlineCNVCalls
 
 
+
+`seq 1 325 | while read -r sample_indx; 
+do 
+  export SGE_TASK_ID=${sample_indx}; 
+  bash scripts/PostprocessGermlineCNVCalls.6.sh tx-6278_IC/PathToCounts.agilentV6.IC_proband_and_affected.txt ploidy-calls 24; 
+done`
+
+output: VCF generated per sample (325 samples)
+
+
+### Merging VCFs across samples to get multi-sample vcf(https://github.com/mkirsche/Jasmine)
 
 
 ## Requirements
-- [List of software and tools required]
-- [Version details]
-- [Any other dependencies]
+- gatk-4.4.0.0 https://github.com/broadinstitute/gatk/releases/download/4.4.0.0/gatk-4.4.0.0.zip
+- java17 https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+- samtools Version: 1.10 (using htslib 1.10)
+- bcftools Version: 1.10 (using htslib 1.10)
+- Jasmine version 1.1.5
+- AnnotSV 3.3.6
 
 *Fill in the details of the software, tools, and any other requirements needed to run your pipeline.*
 

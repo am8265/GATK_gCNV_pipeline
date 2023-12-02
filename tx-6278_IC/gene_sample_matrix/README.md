@@ -1,7 +1,9 @@
-# How to get deletion gene-by-sample matrix from  multi-sample annotSV file 
+# Overview
 
-
-''' 
+This documentation provides guidance on how to use the `getMatrices.py` script. The script generates deletion gene-by-sample matrix from  multi-sample annotSV file
+ 
+```
+ 
 python getMatrices.py -h
 usage: getMatrices.py [-h] [--qual_threshold QUAL_THRESHOLD]
                       [--cds_percent_range MIN MAX]
@@ -30,34 +32,26 @@ optional arguments:
                         100" to imply Overlapped_CDS_percent to be within that
                         close interval range
 
-'''
+```
+## Usage example with **QUAL** filter
 
-## Usage Examples
+## Parameters and File Descriptions
 
-without **QUAL** filter
+- `--qual_threshold 20`: Sets the QUAL filter threshold. The script will consider only those entries from the GATK-gCNV vcf callset where QUAL is greater than 20.
+- `samples.425.txt`: A text file containing a list of sample names. These samples are part of the multi-sample VCF/AnnotSV file.
 
-'''
-python getMatrices.py samples.425.txt \
-rare_geneMatrix.le4of425.tsv common_geneMatrix.gt4Of425.tsv all_geneMatrix.tsv \
-4 \
-AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg1.update.tsv \
-AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg3.update.tsv \
-AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg4.update.tsv \
-AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg5.update.tsv
-'''
+### Output Files
 
-with **QUAL** filter
+- `rare_geneMatrix.le4of425.qual20.tsv`: This is the rare output file. It includes frequencies that are less than or equal to 4 out of 425 samples.
+- `common_geneMatrix.gt4Of425.qual20.tsv`: The common output file. It contains frequencies greater than 4 out of 425 samples.
+- `all_geneMatrix.qual20.tsv`: The superset output file. It combines data from `rare_geneMatrix.le4of425.qual20.tsv` and `common_geneMatrix.gt4Of425.qual20.tsv`.
 
---qual_threshold 20: QUAL (from GATK-gCNV vcf callset)> 20
-samples.425.txt: .txt file containing list of sample names in the multi-sample VCF/AnnotSV file
+### Input Data Files
 
-rare_geneMatrix.le4of425.qual20.tsv: rare_output_file (freq <= 4/425 samples)
-common_geneMatrix.gt4Of425.qual20.tsv: common_output_file ( freq > 4/425 samples)
-all_geneMatrix.qual20.tsv: superset_output_file (rare_geneMatrix.le4of425.qual20.tsv + common_geneMatrix.gt4Of425.qual20.tsv)
-AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg{1,3,4,5}.update.tsv: input data_files (multi-sample annotSV files) 
+- `AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg{1,3,4,5}.update.tsv`: These are the input data files. They consist of multi-sample AnnotSV files for different ACMG categories.
 
 
-'''
+```
 python getMatrices.py --qual_threshold 20 \
 samples.425.txt \
 rare_geneMatrix.le4of425.qual20.tsv common_geneMatrix.gt4Of425.qual20.tsv all_geneMatrix.qual20.tsv \
@@ -66,5 +60,18 @@ AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.ac
 AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg3.update.tsv \
 AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg4.update.tsv \
 AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg5.update.tsv
-'''
+```
+
+## Usage example without **QUAL** filter
+
+```
+python getMatrices.py samples.425.txt \
+rare_geneMatrix.le4of425.tsv common_geneMatrix.gt4Of425.tsv all_geneMatrix.tsv \
+4 \
+AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg1.update.tsv \
+AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg3.update.tsv \
+AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg4.update.tsv \
+AnnotSV/Agilent325PlusIDTERPv2100Cohort.sv/Agilent325PlusIDTERPv2100Cohort.sv.acmg5.update.tsv
+```
+
 

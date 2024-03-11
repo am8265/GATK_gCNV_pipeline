@@ -22,7 +22,7 @@ the kits used, it should be simple to extend the logic to other kits.
 
 `bash scripts/PreprocessIntervals.1.sh tx-6278_IC/data/Agilent_SureSelect_v6_all.bed`
 
-e.g. Agilent_SureSelect_v6_all.bed.targets.preprocessed.interval_list will be the output
+e.g. Agilent_SureSelect_v6_all.bed.targets.preprocessed.interval_list will be the output. This uses GATK PreprocessIntervals to convert from a bed file to interval file.
 
 ### 2. CollectReadCounts and store read counts in hdf5 format
 
@@ -31,7 +31,7 @@ tx-6278_IC/IC_proband_and_affected.ATAV_CRAMS.symLinks.txt is a file containing 
 
 qsub -S /bin/bash -cwd -V -N collectCountsExome -m bea -tc 240 -o . -e . -pe threaded 8 -t 1-1 scripts/CollectReadCounts.2.sh tx-6278_IC/IC_proband_and_affected.ATAV_CRAMS.symLinks.txt data/Agilent_SureSelect_v6_all.bed.targets.preprocessed.interval_list
 
-
+- Given paths to crams, this uses GATK CollectReadCounts to read in BAM/CRAM and writes read counts. hdfa is the extension for files with read counts. 
 
 
 ### 3. Determine GermlineContigPloidy based on contig ploidy priors.
@@ -44,22 +44,26 @@ HPC cluster sge mode run
 
 `qsub -S /bin/bash -cwd -V -N DetermineGermlineContigPloidy -m bea -o . -e . -pe threaded 24 scripts/DetermineGermlineContigPloidy.4.sh tx-6278_IC/PathToCounts.agilentV6.IC_proband_and_affected.txt data/Agilent_SureSelect_v6_all.bed.targets.preprocessed.interval_list`
 
+- uses GATK DetermineGermlineContigPloidy to determine ploidy for every sample
+- creates contig ploidy
+
 ### 4. Scatter Files creation
 
-### 5. GermlineCNVCallerCohort Mode
+- TODO: AYAN TO FILL IN THIS PART. 
+- in step 3, creates ploidy calls. agilent 325. then providing path to count files. 
+- input: path to counts file, contig file for human genome
+- divide list of samples into small chunks. divide into 10 sample batches (e.g., 30 files per batch, for each batch contianing 30 samples, run on a cluster for all of the "contigs" or chromosome). Alternatively, parallelize over chromosome 1. 
+- "scatter files" refers to what is being parallelized.
 
-
-
-
-
+### 5. GermlineCNVCallerCohort Mode (rate limiting step. takes about a week)
 
 `qsub -S /bin/bash -cwd -V -N GermlineCNVCallerCohort -m bea -tc 240 -o . -e . -pe threaded 24 -t 1-24 scripts/GermlineCNVCaller.5.sh tx-6278_IC/PathToCounts.agilentV6.IC_proband_and_affected.txt tx-6278_IC/Agilent325/scatter_file_list.Agilent325.txt ploidy-calls Agilent325Cohort`
 
-
+- uses GATK GermlineCNVCaller.
+- input: paths to counts (on the order of megabytes)
+- way to run in different chunks. AYAN to post the scatter file list example. in this case, 1 - 24 means parallelizing by chromosome.
 
 ### 6. PostprocessGermlineCNVCalls
-
-
 
 `seq 1 325 | while read -r sample_indx; 
 do 
@@ -67,8 +71,8 @@ do
   bash scripts/PostprocessGermlineCNVCalls.6.sh tx-6278_IC/PathToCounts.agilentV6.IC_proband_and_affected.txt ploidy-calls 24; 
 done`
 
-output: VCF generated per sample (325 samples)
-
+output: VCF generated per sample (325 samples) which is generated in step 5
+- uses GATK PostprocessGermlineCNVCalls
 
 ### Merging VCFs across samples to get multi-sample vcf(https://github.com/mkirsche/Jasmine)
 

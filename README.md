@@ -62,6 +62,8 @@ HPC cluster sge mode run
 - uses GATK GermlineCNVCaller.
 - input: paths to counts (on the order of megabytes)
 - way to run in different chunks. AYAN to post the scatter file list example. in this case, 1 - 24 means parallelizing by chromosome.
+- TODO: we think ploidy-calls is the directory holding the output from step 3 but ploidy-calls is not mentioned in step 3. Ayan will clarify. 
+- training gCNV. This outputs multiple metrics and model
 
 ### 6. PostprocessGermlineCNVCalls
 
@@ -71,8 +73,9 @@ do
   bash scripts/PostprocessGermlineCNVCalls.6.sh tx-6278_IC/PathToCounts.agilentV6.IC_proband_and_affected.txt ploidy-calls 24; 
 done`
 
-output: VCF generated per sample (325 samples) which is generated in step 5
-- uses GATK PostprocessGermlineCNVCalls
+- uses GATK PostprocessGermlineCNVCalls. take path to counts files (from step 2) and ploidy calls (output of step 3)
+- get CNVs for every sample.
+- output: VCF generated per sample (325 samples)
 
 ### Merging VCFs across samples to get multi-sample vcf(https://github.com/mkirsche/Jasmine)
 
@@ -86,6 +89,8 @@ output: VCF generated per sample (325 samples) which is generated in step 5
 - AnnotSV 3.3.6
 
 *Fill in the details of the software, tools, and any other requirements needed to run your pipeline.*
+
+- TODO: AYAN TO DO THIS BY 3/15
 
 ## Usage
 ```bash
